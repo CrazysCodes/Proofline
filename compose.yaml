@@ -1,0 +1,19 @@
+services:
+  blog:
+    build: .
+    container_name: proofline
+    restart: unless-stopped
+    environment:
+      SITE_URL: ${SITE_URL:-http://localhost:3000}
+      SITE_NAME: ${SITE_NAME:-Proofline}
+      SITE_DESCRIPTION: ${SITE_DESCRIPTION:-个人主页、博客、作品集与研究入口}
+      CONTENT_DIR: /app/content
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./content:/app/content:ro
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

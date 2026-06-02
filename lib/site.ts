@@ -39,6 +39,12 @@ export const siteConfig = {
   url: trimTrailingSlash(env("SITE_URL", "http://localhost:3000")),
   name: env("SITE_NAME", "Proofline"),
   description: env("SITE_DESCRIPTION", "个人主页、博客、作品集与研究入口"),
+  compliance: {
+    icpRecord: env("ICP_RECORD"),
+    icpRecordUrl: env("ICP_RECORD_URL", "https://beian.miit.gov.cn/"),
+    publicSecurityRecord: env("PUBLIC_SECURITY_RECORD"),
+    publicSecurityRecordUrl: env("PUBLIC_SECURITY_RECORD_URL"),
+  },
 };
 
 export function getProfile(): SiteProfile {

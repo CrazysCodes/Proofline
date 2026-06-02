@@ -8,6 +8,10 @@ services:
       SITE_NAME: ${SITE_NAME:-Proofline}
       SITE_DESCRIPTION: ${SITE_DESCRIPTION:-个人主页、博客、作品集与研究入口}
       CONTENT_DIR: /app/content
+      ICP_RECORD: ${ICP_RECORD:-皖ICP备2023004451号-2}
+      ICP_RECORD_URL: ${ICP_RECORD_URL:-https://beian.miit.gov.cn/}
+      PUBLIC_SECURITY_RECORD: ${PUBLIC_SECURITY_RECORD:-}
+      PUBLIC_SECURITY_RECORD_URL: ${PUBLIC_SECURITY_RECORD_URL:-}
     ports:
       - "127.0.0.1:3000:3000"
     volumes:

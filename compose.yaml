@@ -15,7 +15,7 @@ services:
     ports:
       - "127.0.0.1:3000:3000"
     volumes:
-      - ./content:/app/content:ro
+      - ${CONTENT_HOST_DIR:-./content}:/app/content:ro
     read_only: true
     cap_drop:
       - ALL

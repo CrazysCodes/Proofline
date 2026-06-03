@@ -41,6 +41,9 @@ export type PaperEntry = {
   authors: string;
   venue: string;
   year: number;
+  documentType: string;
+  status: string;
+  primaryFormat: string;
   abstract: string;
   keywords: string[];
   links: ContentLink[];

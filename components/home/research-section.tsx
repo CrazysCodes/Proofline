@@ -63,11 +63,20 @@ export function ResearchSection({ papers, posts }: { papers: PaperEntry[]; posts
                 <div key={paper.slug}>
                   <div style={{ display: "flex", gap: 8, marginBottom: 6, alignItems: "center" }}>
                     <span style={{ fontSize: 11, color: "var(--accent-purple)", background: "var(--accent-purple-light)", padding: "2px 8px", borderRadius: 4 }}>
-                      {paper.venue}
+                      {paper.primaryFormat}
                     </span>
                     <span style={{ fontSize: 11, color: "var(--foreground-muted)", fontFamily: "var(--font-family-mono)" }}>{paper.year}</span>
                   </div>
                   <div style={{ fontSize: 13, color: "var(--foreground)", fontWeight: 600, lineHeight: 1.4 }}>{paper.title}</div>
+                  {paper.links.length ? (
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 6 }}>
+                      {paper.links.slice(0, 3).map((link) => (
+                        <a key={`${paper.slug}-${link.label}`} href={link.url} target="_blank" rel="noopener noreferrer" className="text-link" style={{ fontSize: 12 }}>
+                          {link.label} ↗
+                        </a>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               ))}
             </div>
@@ -81,7 +90,7 @@ export function ResearchSection({ papers, posts }: { papers: PaperEntry[]; posts
             </div>
           ) : (
             <p style={{ fontSize: 13, lineHeight: 1.65, color: "var(--foreground-secondary)", margin: 0 }}>
-              Add Markdown files under <code>content/papers</code> or tag posts with research-related tags to populate this section.
+              Add metadata files under <code>content/papers</code> for PDF, Word, DOI, arXiv, code, and project links.
             </p>
           )}
           <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginTop: 16 }}>

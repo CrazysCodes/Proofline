@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { TagPill } from "@/components/ui/badges";
 import { listPapers, listPosts } from "@/lib/content/collections";
+import type { PaperEntry } from "@/lib/content/types";
 import { getProfile } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -42,10 +43,10 @@ export default async function ResearchPage() {
     <div style={{ maxWidth: 800, margin: "0 auto", padding: "48px 24px 80px" }}>
       <div style={{ marginBottom: 40 }}>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", letterSpacing: "-0.03em", marginBottom: 6 }}>
-          Research
+          Research Materials
         </h1>
         <p style={{ fontSize: 14, color: "var(--foreground-secondary)", lineHeight: 1.7, maxWidth: 560 }}>
-          Research notes, papers, experiments, and public materials connected to {profile.name}'s current work.
+          Papers, reports, PDF files, Word drafts, code links, and public research materials connected to {profile.name}'s current work.
         </p>
       </div>
 
@@ -68,8 +69,8 @@ export default async function ResearchPage() {
 
       <div style={{ marginBottom: 40 }}>
         <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span>Publications</span>
-          {profile.links.scholar !== "#" ? (
+          <span>Document Library</span>
+          {profile.links.scholar ? (
             <a href={profile.links.scholar} target="_blank" rel="noopener noreferrer" className="text-link" style={{ fontSize: 12 }}>
               Google Scholar ↗
             </a>
@@ -79,35 +80,12 @@ export default async function ResearchPage() {
         {papers.length ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {papers.map((paper) => (
-              <div key={paper.slug} className="surface-card" style={{ padding: "22px 24px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-purple)", backgroundColor: "var(--accent-purple-light)", padding: "2px 8px", borderRadius: 4, fontFamily: "var(--font-family-mono)" }}>
-                    {paper.venue}
-                  </span>
-                  <span style={{ fontSize: 11, color: "var(--foreground-muted)", fontFamily: "var(--font-family-mono)" }}>{paper.year}</span>
-                  {paper.featured ? <span style={{ fontSize: 10, fontWeight: 600, color: "var(--accent-amber)", letterSpacing: "0.04em" }}>★ FEATURED</span> : null}
-                </div>
-                <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--foreground)", margin: "0 0 4px", letterSpacing: "-0.02em", lineHeight: 1.4 }}>
-                  {paper.title}
-                </h2>
-                {paper.authors ? <div style={{ fontSize: 12, color: "var(--foreground-muted)", marginBottom: 10, fontStyle: "italic" }}>{paper.authors}</div> : null}
-                {paper.abstract ? <p style={{ fontSize: 13, lineHeight: 1.7, color: "var(--foreground-secondary)", margin: "0 0 14px" }}>{paper.abstract}</p> : null}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
-                  {paper.keywords.map((keyword) => <TagPill key={keyword} tag={keyword} />)}
-                </div>
-                <div style={{ display: "flex", gap: 12 }}>
-                  {paper.links.map((link) => (
-                    <a key={link.label} href={link.url} target="_blank" rel="noopener noreferrer" className="text-link" style={{ fontSize: 12 }}>
-                      {link.label} ↗
-                    </a>
-                  ))}
-                </div>
-              </div>
+              <PaperCard key={paper.slug} paper={paper} />
             ))}
           </div>
         ) : (
-          <div className="surface-card" style={{ padding: "18px 20px", fontSize: 13, color: "var(--foreground-secondary)", lineHeight: 1.65 }}>
-            No paper files yet. Add Markdown files under <code>content/papers</code> to publish papers here.
+          <div className="surface-card" style={{ padding: "20px 24px", fontSize: 13, color: "var(--foreground-secondary)", lineHeight: 1.65 }}>
+            Add metadata files under <code>content/papers</code> to publish PDF, Word, DOI, arXiv, code, and project links here. The Markdown body can stay empty.
           </div>
         )}
       </div>
@@ -128,5 +106,72 @@ export default async function ResearchPage() {
         )}
       </div>
     </div>
+  );
+}
+
+function PaperCard({ paper }: { paper: PaperEntry }) {
+  return (
+    <article className="surface-card" style={{ padding: "22px 24px" }}>
+      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 10 }}>
+        <FormatBadge format={paper.primaryFormat} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: "var(--accent-purple)", backgroundColor: "var(--accent-purple-light)", padding: "2px 8px", borderRadius: 4, fontFamily: "var(--font-family-mono)" }}>
+          {paper.documentType}
+        </span>
+        <span style={{ fontSize: 11, color: "var(--foreground-muted)", fontFamily: "var(--font-family-mono)" }}>{paper.venue}</span>
+        <span style={{ fontSize: 11, color: "var(--foreground-muted)", fontFamily: "var(--font-family-mono)" }}>{paper.year}</span>
+        {paper.status ? <span style={{ fontSize: 11, color: "var(--accent-blue)", backgroundColor: "var(--accent-blue-light)", padding: "2px 8px", borderRadius: 4 }}>{paper.status}</span> : null}
+        {paper.featured ? <span style={{ fontSize: 10, fontWeight: 600, color: "var(--accent-amber)", letterSpacing: "0.04em" }}>★ FEATURED</span> : null}
+      </div>
+
+      <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--foreground)", margin: "0 0 5px", letterSpacing: "-0.02em", lineHeight: 1.4 }}>
+        {paper.title}
+      </h2>
+      {paper.authors ? <div style={{ fontSize: 12, color: "var(--foreground-muted)", marginBottom: 10, fontStyle: "italic" }}>{paper.authors}</div> : null}
+      {paper.abstract ? <p style={{ fontSize: 13, lineHeight: 1.7, color: "var(--foreground-secondary)", margin: "0 0 14px" }}>{paper.abstract}</p> : null}
+
+      {paper.keywords.length ? (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 14 }}>
+          {paper.keywords.map((keyword) => <TagPill key={keyword} tag={keyword} />)}
+        </div>
+      ) : null}
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: paper.html ? 14 : 0 }}>
+        {paper.links.length ? (
+          paper.links.map((link) => (
+            <a key={`${link.label}-${link.url}`} href={link.url} target="_blank" rel="noopener noreferrer" className="text-link" style={{ fontSize: 12 }}>
+              {link.label} ↗
+            </a>
+          ))
+        ) : (
+          <span style={{ fontSize: 12, color: "var(--foreground-muted)" }}>Metadata only</span>
+        )}
+      </div>
+
+      {paper.html ? (
+        <details style={{ borderTop: "1px solid var(--border)", paddingTop: 12 }}>
+          <summary style={{ cursor: "pointer", fontSize: 12, color: "var(--foreground-secondary)", fontWeight: 500 }}>Notes</summary>
+          <div className="prose-content" style={{ marginTop: 12 }} dangerouslySetInnerHTML={{ __html: paper.html }} />
+        </details>
+      ) : null}
+    </article>
+  );
+}
+
+function FormatBadge({ format }: { format: string }) {
+  const isDocument = format === "PDF" || format === "Word";
+  return (
+    <span
+      style={{
+        fontSize: 11,
+        fontWeight: 600,
+        color: isDocument ? "var(--accent-green)" : "var(--foreground-secondary)",
+        backgroundColor: isDocument ? "var(--accent-green-light)" : "var(--muted)",
+        padding: "2px 8px",
+        borderRadius: 4,
+        fontFamily: "var(--font-family-mono)",
+      }}
+    >
+      {format}
+    </span>
   );
 }

@@ -57,6 +57,38 @@ function asLinks(data: MatterData) {
   return links;
 }
 
+function addLink(links: ContentLink[], label: string, url: string) {
+  if (!url || links.some((link) => link.label === label && link.url === url)) return;
+  links.push({ label, url });
+}
+
+function asPaperLinks(data: MatterData) {
+  const links: ContentLink[] = [];
+  const pdf = asString(data.pdf);
+  const word = asString(data.word) || asString(data.docx) || asString(data.doc);
+  const slides = asString(data.slides);
+  const code = asString(data.code);
+  const project = asString(data.project);
+  const doi = asString(data.doi);
+  const arxiv = asString(data.arxiv);
+
+  addLink(links, "PDF", pdf);
+  addLink(links, "Word", word);
+  addLink(links, "Slides", slides);
+  addLink(links, "Code", code);
+  addLink(links, "Project", project);
+  if (doi) addLink(links, "DOI", doi.startsWith("http") ? doi : `https://doi.org/${doi}`);
+  if (arxiv) addLink(links, "arXiv", arxiv.startsWith("http") ? arxiv : `https://arxiv.org/abs/${arxiv}`);
+
+  for (const link of asLinks(data)) addLink(links, link.label, link.url);
+  return links;
+}
+
+function paperPrimaryFormat(links: ContentLink[]) {
+  const priority = ["PDF", "Word", "DOI", "arXiv", "Slides", "Code", "Project"];
+  return priority.find((label) => links.some((link) => link.label === label)) || (links.length ? "Link" : "Metadata");
+}
+
 async function readMarkdownFiles(collection: string) {
   const dir = collectionDir(collection);
 
@@ -195,6 +227,7 @@ export async function listPapers(): Promise<PaperEntry[]> {
       const parsed = parseFrontmatter(raw);
       const data = parsed.data as MatterData;
       if (asBool(data.draft)) return null;
+      const links = asPaperLinks(data);
 
       return {
         slug,
@@ -202,9 +235,12 @@ export async function listPapers(): Promise<PaperEntry[]> {
         authors: asString(data.authors),
         venue: asString(data.venue, "Working Note"),
         year: Number(data.year || new Date().getFullYear()),
+        documentType: asString(data.type, "Paper"),
+        status: asString(data.status),
+        primaryFormat: paperPrimaryFormat(links),
         abstract: asString(data.abstract, asString(data.description)),
         keywords: asStringArray(data.keywords).length ? asStringArray(data.keywords) : asStringArray(data.tags),
-        links: asLinks(data),
+        links,
         featured: asBool(data.featured),
         html: await renderMarkdown(parsed.content),
       } satisfies PaperEntry;

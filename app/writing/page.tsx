@@ -6,7 +6,7 @@ import { listPosts } from "@/lib/content/collections";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Writing",
+  title: "文章",
 };
 
 export default async function WritingPage({
@@ -23,27 +23,19 @@ export default async function WritingPage({
   });
 
   return (
-    <div className="container" style={{ paddingTop: 48, paddingBottom: 80 }}>
+    <div className="container writing-index" style={{ paddingTop: 48, paddingBottom: 80 }}>
       <div style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", letterSpacing: "-0.03em", marginBottom: 6 }}>
-          Writing
+        <h1 className="page-title">
+          文章
         </h1>
         <p style={{ fontSize: 14, color: "var(--foreground-secondary)", lineHeight: 1.6 }}>
-          Engineering notes, research logs, and project write-ups. {posts.length} articles.
+          工程笔记、研究记录与项目复盘，共 {posts.length} 篇文章。
         </p>
       </div>
 
       <FilterBar posts={posts} activeCategory={params.category} activeTag={params.tag} />
 
-      <div style={{ fontSize: 12, color: "var(--foreground-muted)", marginBottom: 16, fontFamily: "var(--font-family-mono)" }}>
-        {filtered.length} article{filtered.length !== 1 ? "s" : ""}
-      </div>
-
-      <div>
-        {filtered.map((post, index) => (
-          <PostRow key={post.slug} post={post} showBorder={index < filtered.length - 1} />
-        ))}
-      </div>
+      <div className="article-list">{filtered.map(post => <div className="explorer-entry" key={post.slug}><PostRow post={post} showViews /></div>)}</div>
     </div>
   );
 }
@@ -64,9 +56,9 @@ function FilterBar({
     <div className="surface-card" style={{ padding: "14px 16px", marginBottom: 24 }}>
       <div style={{ marginBottom: 10 }}>
         <span style={{ fontSize: 11, color: "var(--foreground-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginRight: 10 }}>
-          Category
+          分类
         </span>
-        <FilterLink href="/writing" label="All" active={!activeCategory} />
+        <FilterLink href="/writing" label="全部" active={!activeCategory} />
         {categories.map((category) => (
           <FilterLink
             key={category}
@@ -76,10 +68,9 @@ function FilterBar({
           />
         ))}
       </div>
-      <div>
-        <span style={{ fontSize: 11, color: "var(--foreground-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginRight: 10 }}>
-          Tag
-        </span>
+      <details className="writing-tag-filter" open={Boolean(activeTag)}>
+        <summary>按标签筛选{activeTag ? `：${activeTag}` : ""}</summary>
+        <div style={{ marginTop: 12 }}>
         {tags.slice(0, 12).map((tag) => (
           <FilterLink
             key={tag}
@@ -89,7 +80,8 @@ function FilterBar({
             mono
           />
         ))}
-      </div>
+        </div>
+      </details>
     </div>
   );
 }

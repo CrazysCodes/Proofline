@@ -6,10 +6,12 @@
     "dev": "next dev --hostname 127.0.0.1 --port 3000",
     "build": "next build",
     "start": "next start --hostname 0.0.0.0 --port 3000",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:content": "node scripts/check-content.cjs"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
+    "js-yaml": "4.3.2",
     "next": "^15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -21,8 +23,14 @@
     "remark-rehype": "^11.1.2",
     "unified": "^11.0.5"
   },
+  "overrides": {
+    "postcss": "8.5.28",
+    "source-map-js": "1.2.2",
+    "js-yaml": "$js-yaml"
+  },
   "devDependencies": {
     "@types/node": "^22.15.0",
+    "@types/js-yaml": "^4.0.9",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "typescript": "^5.8.3"

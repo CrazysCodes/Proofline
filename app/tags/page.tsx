@@ -6,7 +6,7 @@ import { listPapers, listPosts, listProjects } from "@/lib/content/collections";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Tags",
+  title: "标签",
 };
 
 export default async function TagsPage() {
@@ -23,10 +23,10 @@ export default async function TagsPage() {
     <div className="container" style={{ paddingTop: 48, paddingBottom: 80 }}>
       <div style={{ marginBottom: 32 }}>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", letterSpacing: "-0.03em", marginBottom: 6 }}>
-          Tags
+          标签
         </h1>
         <p style={{ fontSize: 14, color: "var(--foreground-secondary)", lineHeight: 1.6 }}>
-          Browse writing, projects, and research by topic.
+          按主题浏览文章、作品与研究资料。
         </p>
       </div>
 

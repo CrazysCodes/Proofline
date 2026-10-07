@@ -1,0 +1,30 @@
+[Unit]
+Description=Aggregate Proofline page-view analytics
+After=nginx.service
+
+[Service]
+Type=oneshot
+User=root
+Group=www-data
+SupplementaryGroups=adm
+UMask=0077
+ExecStart=/usr/bin/flock -n /run/lock/proofline-analytics.lock /usr/bin/python3 /srv/services/apps/proofline-analytics/aggregate.py
+Nice=10
+IOSchedulingClass=idle
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+PrivateDevices=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX
+CapabilityBoundingSet=
+ReadWritePaths=/srv/services/data/proofline-analytics /run/lock
+
+[Install]
+WantedBy=multi-user.target

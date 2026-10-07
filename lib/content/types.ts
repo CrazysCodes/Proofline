@@ -15,7 +15,7 @@ export type PostEntry = {
   html: string;
 };
 
-export type ProjectStatus = "featured" | "active" | "building" | "archived";
+export type ProjectStatus = "featured" | "active" | "open-source" | "building" | "archived";
 
 export type ProjectEntry = {
   slug: string;

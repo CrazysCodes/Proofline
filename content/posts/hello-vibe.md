@@ -4,8 +4,8 @@ date: 2026-05-26
 description: 记录这个个人主页、博客、作品集和研究入口项目的第一版目标。
 tags: [proofline, nextjs, mvp]
 category: 项目记录
-featured: true
-draft: false
+featured: false
+draft: true
 ---
 
 ## 为什么做这个站点

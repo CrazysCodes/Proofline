@@ -7,14 +7,14 @@ import type { PostEntry, ProjectEntry } from "@/lib/content/types";
 export function LatestUpdates({ posts, projects }: { posts: PostEntry[]; projects: ProjectEntry[] }) {
   const updates = [
     ...posts.slice(0, 3).map((post) => ({
-      type: "Article",
+      type: "文章",
       title: post.title,
       href: `/writing/${post.slug}`,
       date: post.date,
       meta: post.category,
     })),
     ...projects.slice(0, 2).map((project) => ({
-      type: "Project",
+      type: "项目",
       title: project.name,
       href: `/projects/${project.slug}`,
       date: project.date,
@@ -28,7 +28,7 @@ export function LatestUpdates({ posts, projects }: { posts: PostEntry[]; project
 
   return (
     <section className="container" style={{ paddingTop: 56 }}>
-      <SectionHeader title="Latest Updates" href="/archive" action="Archive →" />
+      <SectionHeader title="最近更新" href="/archive" action="时间归档 →" />
       <div className="surface-card" style={{ marginTop: 16, overflow: "hidden" }}>
         {updates.map((update, index) => (
           <Link

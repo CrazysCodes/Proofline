@@ -1,4 +1,5 @@
 import matter from "gray-matter";
+import { load as loadYaml } from "js-yaml";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
@@ -24,10 +25,13 @@ export async function renderMarkdown(markdown: string) {
 }
 
 export function parseFrontmatter(raw: string) {
-  return matter(raw);
+  // Explicit engine avoids gray-matter's legacy safeLoad API and old YAML dependencies.
+  return matter(raw, { engines: { yaml: (source: string) => loadYaml(source) as Record<string, unknown> } });
 }
 
 export function estimateReadingTime(markdown: string) {
-  const words = markdown.replace(/<[^>]+>/g, " ").trim().split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.ceil(words / 220));
+  const text = markdown.replace(/<[^>]+>/g, " ");
+  const chineseCharacters = (text.match(/[\u3400-\u9fff]/g) || []).length;
+  const words = text.replace(/[\u3400-\u9fff]/g, " ").trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(chineseCharacters / 450 + words / 220));
 }

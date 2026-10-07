@@ -10,10 +10,10 @@ export function CredibilityStrip({
   papers: PaperEntry[];
 }) {
   const items = [
-    { label: "Projects", value: projects.length || "0" },
-    { label: "Articles", value: posts.length || "0" },
-    { label: "Papers", value: papers.length || "0" },
-    { label: "Mode", value: "Read-only" },
+    { label: "作品", value: projects.length || "0" },
+    { label: "文章", value: posts.length || "0" },
+    { label: "论文", value: papers.length || "0" },
+    { label: "模式", value: "只读" },
   ];
 
   return (

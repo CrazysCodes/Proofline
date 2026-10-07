@@ -8,10 +8,10 @@ import type { ProjectStatus } from "@/lib/content/types";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Projects",
+  title: "作品",
 };
 
-const statusOrder: ProjectStatus[] = ["active", "building", "featured", "archived"];
+const statusOrder: ProjectStatus[] = ["open-source", "active", "building", "featured", "archived"];
 
 export default async function ProjectsPage({ searchParams }: { searchParams: Promise<{ status?: ProjectStatus }> }) {
   const params = await searchParams;
@@ -21,16 +21,16 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
   return (
     <div className="container" style={{ paddingTop: 48, paddingBottom: 80 }}>
       <div style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", letterSpacing: "-0.03em", marginBottom: 6 }}>
-          Projects
+        <h1 className="page-title">
+          作品
         </h1>
         <p style={{ fontSize: 14, color: "var(--foreground-secondary)", lineHeight: 1.6 }}>
-          Production systems, research prototypes, and personal tools maintained as Markdown project files.
+          已上线的产品、研究原型与个人工具，在这里记录它们的构建过程。
         </p>
       </div>
 
       <div style={{ display: "flex", gap: 6, marginBottom: 28, flexWrap: "wrap" }}>
-        <FilterButton href="/projects" label="All" active={!params.status} count={projects.length} />
+        <FilterButton href="/projects" label="全部" active={!params.status} count={projects.length} />
         {statusOrder.map((status) => {
           const count = projects.filter((project) => project.status === status).length;
           if (!count) return null;
@@ -47,11 +47,7 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
         })}
       </div>
 
-      <div className="two-col">
-        {filtered.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
-      </div>
+      <div className="two-col">{filtered.map(project => <ProjectCard key={project.slug} project={project} />)}</div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 ---
 name: Proofline
 date: 2026-05-26
-description: 一个只读的个人主页、博客、作品集与研究入口。
-status: building
+description: 一个以 Markdown 为内容源的开源个人主页，连接文章、作品与研究。
+status: open-source
 tags: [nextjs, markdown, portfolio]
 tech: [Next.js, TypeScript, Markdown]
 repo: https://github.com/CrazysCodes/Proofline
@@ -14,6 +14,8 @@ draft: false
 ## 项目目标
 
 Proofline 用来承载个人公开信息、技术文章、项目作品、研究和论文入口。
+
+项目采用开源方式维护，代码入口见 [GitHub 仓库](https://github.com/CrazysCodes/Proofline)。
 
 第一版坚持只读模式：
 

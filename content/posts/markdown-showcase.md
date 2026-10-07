@@ -4,8 +4,8 @@ date: 2026-05-26
 description: 一个用于验证 Markdown 原生语法展示效果的示例页面。
 tags: [markdown, profile]
 category: 展示能力
-featured: true
-draft: false
+featured: false
+draft: true
 ---
 
 这篇文章展示 Markdown 原生语法的效果。它不是 MDX，不执行 React 组件，也不提供在线编辑能力。

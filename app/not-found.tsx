@@ -16,8 +16,8 @@ export default function NotFoundPage() {
       >
         404
       </div>
-      <div style={{ fontSize: 16, color: "var(--foreground-secondary)", marginBottom: 24 }}>Page not found.</div>
-      <Link href="/" className="text-link">← Back to home</Link>
+      <div style={{ fontSize: 16, color: "var(--foreground-secondary)", marginBottom: 24 }}>页面不存在。</div>
+      <Link href="/" className="text-link">← 返回首页</Link>
     </div>
   );
 }

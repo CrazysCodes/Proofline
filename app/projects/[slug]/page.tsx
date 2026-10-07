@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { StatusBadge, TagPill } from "@/components/ui/badges";
+import { contentLinkLabel, StatusBadge, TagPill } from "@/components/ui/badges";
 import { getProject, listProjects } from "@/lib/content/collections";
 
 export const dynamic = "force-dynamic";
@@ -29,9 +29,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   return (
     <div style={{ maxWidth: 800, margin: "0 auto", padding: "40px 24px 80px" }}>
       <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 32 }}>
-        <Link href="/" style={{ fontSize: 13, color: "var(--foreground-muted)", textDecoration: "none" }}>Home</Link>
+        <Link href="/" style={{ fontSize: 13, color: "var(--foreground-muted)", textDecoration: "none" }}>首页</Link>
         <span style={{ color: "var(--border)" }}>/</span>
-        <Link href="/projects" style={{ fontSize: 13, color: "var(--foreground-muted)", textDecoration: "none" }}>Projects</Link>
+        <Link href="/projects" style={{ fontSize: 13, color: "var(--foreground-muted)", textDecoration: "none" }}>作品</Link>
         <span style={{ color: "var(--border)" }}>/</span>
         <span style={{ fontSize: 13, color: "var(--foreground-secondary)" }}>{project.name}</span>
       </div>
@@ -73,7 +73,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 fontWeight: 500,
               }}
             >
-              {link.label} ↗
+              {contentLinkLabel(link.label)} ↗
             </a>
           ))}
         </div>
@@ -83,7 +83,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       <div className="surface-card" style={{ padding: "20px 24px", marginBottom: 32 }}>
         <div style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12 }}>
-          Tech Stack
+          技术栈
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
           {(project.tech.length ? project.tech : project.tags).map((tag) => (
@@ -96,7 +96,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       {related.length ? (
         <div style={{ borderTop: "1px solid var(--border)", paddingTop: 32, marginTop: 40 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", marginBottom: 16 }}>Related Projects</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", marginBottom: 16 }}>相关作品</div>
           <div style={{ display: "flex", gap: 12 }}>
             {related.map((item) => (
               <Link key={item.slug} href={`/projects/${item.slug}`} style={{ textDecoration: "none", flex: 1 }}>
@@ -117,9 +117,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
 function ProjectSections({ project }: { project: NonNullable<Awaited<ReturnType<typeof getProject>>> }) {
   const sections = [
-    project.problem ? { label: "Problem", content: project.problem, icon: "⊘" } : null,
-    project.contribution ? { label: "My Contribution", content: project.contribution, icon: "◈" } : null,
-    project.result ? { label: "Result", content: project.result, icon: "◉" } : null,
+    project.problem ? { label: "解决的问题", content: project.problem, icon: "⊘" } : null,
+    project.contribution ? { label: "我的贡献", content: project.contribution, icon: "◈" } : null,
+    project.result ? { label: "项目成果", content: project.result, icon: "◉" } : null,
   ].filter((section): section is { label: string; content: string; icon: string } => Boolean(section));
 
   if (!sections.length) return null;

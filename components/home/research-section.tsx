@@ -1,30 +1,9 @@
 import Link from "next/link";
 
-import { SectionHeader, TagPill } from "@/components/ui/badges";
+import { contentLinkLabel, SectionHeader, TagPill } from "@/components/ui/badges";
 import type { PaperEntry, PostEntry } from "@/lib/content/types";
 
-const fallbackDirections = [
-  {
-    area: "AI Systems",
-    desc: "LLM applications, retrieval, evaluation, inference, and the infrastructure around useful AI products.",
-    icon: "◎",
-  },
-  {
-    area: "Developer Tooling",
-    desc: "Tools that compress feedback loops for writing, reviewing, testing, and shipping software.",
-    icon: "⌘",
-  },
-  {
-    area: "Personal Knowledge",
-    desc: "Durable notes, public writing, and systems for turning experiments into reusable memory.",
-    icon: "◈",
-  },
-  {
-    area: "Product Prototypes",
-    desc: "Small complete products where design, implementation, and deployment meet.",
-    icon: "▣",
-  },
-];
+import { researchDirections } from "@/lib/research-directions";
 
 export function ResearchSection({ papers, posts }: { papers: PaperEntry[]; posts: PostEntry[] }) {
   const researchNotes = posts.filter((post) =>
@@ -33,15 +12,15 @@ export function ResearchSection({ papers, posts }: { papers: PaperEntry[]; posts
 
   return (
     <section className="container" style={{ paddingTop: 56 }}>
-      <SectionHeader title="Research / Papers" href="/research" action="Research →" />
+      <SectionHeader title="研究与论文" href="/research" action="研究资料 →" />
 
       <div className="two-col" style={{ marginTop: 20 }}>
         <div className="surface-card" style={{ padding: "20px 24px" }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 14 }}>
-            Directions
+            研究方向
           </div>
           <div style={{ display: "grid", gap: 10 }}>
-            {fallbackDirections.map((direction) => (
+            {researchDirections.map((direction) => (
               <div key={direction.area} style={{ display: "flex", gap: 10 }}>
                 <span style={{ fontSize: 16, color: "var(--foreground-muted)", fontFamily: "var(--font-family-mono)" }}>{direction.icon}</span>
                 <div>
@@ -55,7 +34,7 @@ export function ResearchSection({ papers, posts }: { papers: PaperEntry[]; posts
 
         <div className="surface-card" style={{ padding: "20px 24px" }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 14 }}>
-            Materials
+            资料
           </div>
           {papers.length ? (
             <div style={{ display: "grid", gap: 14 }}>
@@ -72,7 +51,7 @@ export function ResearchSection({ papers, posts }: { papers: PaperEntry[]; posts
                     <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 6 }}>
                       {paper.links.slice(0, 3).map((link) => (
                         <a key={`${paper.slug}-${link.label}`} href={link.url} target="_blank" rel="noopener noreferrer" className="text-link" style={{ fontSize: 12 }}>
-                          {link.label} ↗
+                          {contentLinkLabel(link.label)} ↗
                         </a>
                       ))}
                     </div>
@@ -90,11 +69,11 @@ export function ResearchSection({ papers, posts }: { papers: PaperEntry[]; posts
             </div>
           ) : (
             <p style={{ fontSize: 13, lineHeight: 1.65, color: "var(--foreground-secondary)", margin: 0 }}>
-              Add metadata files under <code>content/papers</code> for PDF, Word, DOI, arXiv, code, and project links.
+              研究资料正在整理中，后续会补充论文、文档与代码链接。
             </p>
           )}
           <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginTop: 16 }}>
-            {["research", "papers", "experiments"].map((tag) => (
+            {["研究", "论文", "实验"].map((tag) => (
               <TagPill key={tag} tag={tag} />
             ))}
           </div>

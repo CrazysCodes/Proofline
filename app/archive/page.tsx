@@ -7,13 +7,13 @@ import { listPosts } from "@/lib/content/collections";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Archive",
+  title: "归档",
 };
 
 export default async function ArchivePage() {
   const posts = await listPosts();
   const groups = posts.reduce<Record<string, typeof posts>>((acc, post) => {
-    const key = post.date ? post.date.slice(0, 7) : "Undated";
+    const key = post.date ? post.date.slice(0, 7) : "未标注日期";
     acc[key] ||= [];
     acc[key].push(post);
     return acc;
@@ -23,10 +23,10 @@ export default async function ArchivePage() {
     <div className="container" style={{ paddingTop: 48, paddingBottom: 80 }}>
       <div style={{ marginBottom: 32 }}>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", letterSpacing: "-0.03em", marginBottom: 6 }}>
-          Archive
+          归档
         </h1>
         <p style={{ fontSize: 14, color: "var(--foreground-secondary)", lineHeight: 1.6 }}>
-          Chronological index of all public writing.
+          按时间整理的公开文章。
         </p>
       </div>
 

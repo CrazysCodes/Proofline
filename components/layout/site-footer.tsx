@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { PageViewCount } from "@/components/layout/page-view-count";
 import { getProfile, siteConfig } from "@/lib/site";
 
 export function SiteFooter() {
@@ -21,7 +22,10 @@ export function SiteFooter() {
           color: "var(--foreground-muted)",
         }}
       >
-        <span>© {new Date().getFullYear()} {profile.name}</span>
+        <span style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+          <span>© {new Date().getFullYear()} {profile.name}</span>
+          <PageViewCount />
+        </span>
         <span style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
           {icpRecord ? (
             <a href={icpRecordUrl} target="_blank" rel="noopener noreferrer" className="text-link">
@@ -43,10 +47,10 @@ export function SiteFooter() {
             RSS
           </Link>
           <Link href="/archive" className="text-link">
-            Archive
+            归档
           </Link>
           <Link href="/tags" className="text-link">
-            Tags
+            标签
           </Link>
         </span>
       </div>

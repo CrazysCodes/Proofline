@@ -1,15 +1,14 @@
 import Link from "next/link";
 
-import { StatusBadge, TagPill } from "@/components/ui/badges";
+import { contentLinkLabel, StatusBadge, TagPill } from "@/components/ui/badges";
 import type { ProjectEntry } from "@/lib/content/types";
 
 export function ProjectCard({ project, large = false }: { project: ProjectEntry; large?: boolean }) {
   const year = project.date ? new Date(project.date).getFullYear() : "";
 
   return (
-    <Link href={`/projects/${project.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
       <article
-        className="surface-card"
+        className="surface-card interactive-project-card"
         style={{
           padding: large ? "24px" : "20px",
           height: "100%",
@@ -36,10 +35,10 @@ export function ProjectCard({ project, large = false }: { project: ProjectEntry;
                 letterSpacing: "-0.02em",
               }}
             >
-              {project.name}
+              <Link href={`/projects/${project.slug}`} className="project-title-link">{project.name}</Link>
             </h3>
           </div>
-          <span style={{ fontSize: 14, color: "var(--foreground-muted)", flexShrink: 0, marginTop: 2 }}>↗</span>
+          <Link href={`/projects/${project.slug}`} aria-label={`了解 ${project.name}`} className="project-open-link">↗</Link>
         </div>
 
         {project.description ? (
@@ -50,7 +49,7 @@ export function ProjectCard({ project, large = false }: { project: ProjectEntry;
 
         {large && project.result ? (
           <div style={{ padding: "8px 12px", backgroundColor: "var(--background)", borderRadius: 5, borderLeft: "2px solid var(--accent-blue)" }}>
-            <div style={{ fontSize: 11, color: "var(--foreground-muted)", marginBottom: 2, fontFamily: "var(--font-family-mono)" }}>RESULT</div>
+            <div style={{ fontSize: 11, color: "var(--foreground-muted)", marginBottom: 2, fontFamily: "var(--font-family-mono)" }}>项目成果</div>
             <div style={{ fontSize: 12, color: "var(--foreground-secondary)", lineHeight: 1.5 }}>{project.result}</div>
           </div>
         ) : null}
@@ -71,12 +70,11 @@ export function ProjectCard({ project, large = false }: { project: ProjectEntry;
                 rel={link.url.startsWith("/") ? undefined : "noopener noreferrer"}
                 style={{ fontSize: 12, color: "var(--accent-blue)", textDecoration: "none", fontWeight: 500 }}
               >
-                {link.label} ↗
+                {contentLinkLabel(link.label)} ↗
               </a>
             ))}
           </div>
         ) : null}
       </article>
-    </Link>
   );
 }

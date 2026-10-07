@@ -22,7 +22,7 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
   return (
     <div className="container" style={{ paddingTop: 48, paddingBottom: 80 }}>
       <div style={{ marginBottom: 32 }}>
-        <Link href="/tags" className="text-link" style={{ fontSize: 13 }}>← All tags</Link>
+        <Link href="/tags" className="text-link" style={{ fontSize: 13 }}>← 全部标签</Link>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", letterSpacing: "-0.03em", margin: "10px 0 6px" }}>
           #{tag}
         </h1>
@@ -31,7 +31,7 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
       {matchingPosts.length ? (
         <section style={{ marginBottom: 44 }}>
           <h2 style={{ fontSize: 13, color: "var(--foreground-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12 }}>
-            Writing
+            文章
           </h2>
           {matchingPosts.map((post, index) => (
             <PostRow key={post.slug} post={post} showBorder={index < matchingPosts.length - 1} />
@@ -42,7 +42,7 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
       {matchingProjects.length ? (
         <section>
           <h2 style={{ fontSize: 13, color: "var(--foreground-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12 }}>
-            Projects
+            作品
           </h2>
           <div className="two-col">
             {matchingProjects.map((project) => (

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { TagPill } from "@/components/ui/badges";
+import { contentLinkLabel, TagPill } from "@/components/ui/badges";
 import { listPapers, listPosts } from "@/lib/content/collections";
 import type { PaperEntry } from "@/lib/content/types";
 import { getProfile } from "@/lib/site";
@@ -8,31 +8,10 @@ import { getProfile } from "@/lib/site";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Research",
+  title: "研究",
 };
 
-const directions = [
-  {
-    area: "AI Systems",
-    desc: "LLM applications, retrieval, evaluation, inference, and production constraints.",
-    icon: "◎",
-  },
-  {
-    area: "Developer Tooling",
-    desc: "Interfaces and workflows that make software work easier to reason about.",
-    icon: "⌧",
-  },
-  {
-    area: "Human-AI Interaction",
-    desc: "How people build trust with AI tools through evidence, calibration, and feedback.",
-    icon: "◈",
-  },
-  {
-    area: "Knowledge Infrastructure",
-    desc: "Public notes, durable content systems, and personal research memory.",
-    icon: "▣",
-  },
-];
+import { researchDirections } from "@/lib/research-directions";
 
 export default async function ResearchPage() {
   const [papers, posts] = await Promise.all([listPapers(), listPosts()]);
@@ -42,20 +21,20 @@ export default async function ResearchPage() {
   return (
     <div style={{ maxWidth: 800, margin: "0 auto", padding: "48px 24px 80px" }}>
       <div style={{ marginBottom: 40 }}>
-        <h1 style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", letterSpacing: "-0.03em", marginBottom: 6 }}>
-          Research Materials
+        <h1 className="page-title">
+          研究资料
         </h1>
         <p style={{ fontSize: 14, color: "var(--foreground-secondary)", lineHeight: 1.7, maxWidth: 560 }}>
-          Papers, reports, PDF files, Word drafts, code links, and public research materials connected to {profile.name}'s current work.
+          {profile.name} 的论文、报告、文档与代码，以及相关的公开研究资料。
         </p>
       </div>
 
       <div className="surface-card" style={{ padding: "20px 24px", marginBottom: 40 }}>
         <div style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 14 }}>
-          Research Directions
+          研究方向
         </div>
         <div className="two-col">
-          {directions.map((direction) => (
+          {researchDirections.map((direction) => (
             <div key={direction.area} style={{ padding: "14px 16px", backgroundColor: "var(--background)", borderRadius: 6, border: "1px solid var(--border)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                 <span style={{ fontSize: 16, lineHeight: 1 }}>{direction.icon}</span>
@@ -69,7 +48,7 @@ export default async function ResearchPage() {
 
       <div style={{ marginBottom: 40 }}>
         <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span>Document Library</span>
+          <span>资料库</span>
           {profile.links.scholar ? (
             <a href={profile.links.scholar} target="_blank" rel="noopener noreferrer" className="text-link" style={{ fontSize: 12 }}>
               Google Scholar ↗
@@ -85,15 +64,15 @@ export default async function ResearchPage() {
           </div>
         ) : (
           <div className="surface-card" style={{ padding: "20px 24px", fontSize: 13, color: "var(--foreground-secondary)", lineHeight: 1.65 }}>
-            Add metadata files under <code>content/papers</code> to publish PDF, Word, DOI, arXiv, code, and project links here. The Markdown body can stay empty.
+            研究资料正在整理中，后续会补充论文、文档与代码链接。
           </div>
         )}
       </div>
 
       <div style={{ border: "1px dashed var(--border)", borderRadius: 8, padding: "20px 24px" }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", marginBottom: 6 }}>Research Notes</div>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", marginBottom: 6 }}>研究笔记</div>
         <p style={{ fontSize: 13, lineHeight: 1.65, color: "var(--foreground-secondary)", margin: "0 0 10px" }}>
-          Informal notes and experiment logs live in Writing so they can be maintained as plain Markdown.
+          研究笔记与实验记录收录在文章栏目中，持续更新。
         </p>
         {researchPosts.length ? (
           <div style={{ display: "grid", gap: 8 }}>
@@ -102,7 +81,7 @@ export default async function ResearchPage() {
             ))}
           </div>
         ) : (
-          <a href="/writing" className="text-link" style={{ fontSize: 13 }}>Browse writing →</a>
+          <a href="/writing" className="text-link" style={{ fontSize: 13 }}>浏览文章 →</a>
         )}
       </div>
     </div>
@@ -120,7 +99,7 @@ function PaperCard({ paper }: { paper: PaperEntry }) {
         <span style={{ fontSize: 11, color: "var(--foreground-muted)", fontFamily: "var(--font-family-mono)" }}>{paper.venue}</span>
         <span style={{ fontSize: 11, color: "var(--foreground-muted)", fontFamily: "var(--font-family-mono)" }}>{paper.year}</span>
         {paper.status ? <span style={{ fontSize: 11, color: "var(--accent-blue)", backgroundColor: "var(--accent-blue-light)", padding: "2px 8px", borderRadius: 4 }}>{paper.status}</span> : null}
-        {paper.featured ? <span style={{ fontSize: 10, fontWeight: 600, color: "var(--accent-amber)", letterSpacing: "0.04em" }}>★ FEATURED</span> : null}
+        {paper.featured ? <span style={{ fontSize: 10, fontWeight: 600, color: "var(--accent-amber)", letterSpacing: "0.04em" }}>★ 精选</span> : null}
       </div>
 
       <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--foreground)", margin: "0 0 5px", letterSpacing: "-0.02em", lineHeight: 1.4 }}>
@@ -139,17 +118,17 @@ function PaperCard({ paper }: { paper: PaperEntry }) {
         {paper.links.length ? (
           paper.links.map((link) => (
             <a key={`${link.label}-${link.url}`} href={link.url} target="_blank" rel="noopener noreferrer" className="text-link" style={{ fontSize: 12 }}>
-              {link.label} ↗
+              {contentLinkLabel(link.label)} ↗
             </a>
           ))
         ) : (
-          <span style={{ fontSize: 12, color: "var(--foreground-muted)" }}>Metadata only</span>
+          <span style={{ fontSize: 12, color: "var(--foreground-muted)" }}>仅有元信息</span>
         )}
       </div>
 
       {paper.html ? (
         <details style={{ borderTop: "1px solid var(--border)", paddingTop: 12 }}>
-          <summary style={{ cursor: "pointer", fontSize: 12, color: "var(--foreground-secondary)", fontWeight: 500 }}>Notes</summary>
+          <summary style={{ cursor: "pointer", fontSize: 12, color: "var(--foreground-secondary)", fontWeight: 500 }}>备注</summary>
           <div className="prose-content" style={{ marginTop: 12 }} dangerouslySetInnerHTML={{ __html: paper.html }} />
         </details>
       ) : null}

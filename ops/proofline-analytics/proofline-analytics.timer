@@ -1,0 +1,12 @@
+[Unit]
+Description=Update Proofline page-view analytics hourly
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+AccuracySec=1m
+RandomizedDelaySec=3m
+Unit=proofline-analytics.service
+
+[Install]
+WantedBy=timers.target

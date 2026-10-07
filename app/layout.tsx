@@ -32,8 +32,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="zh-CN">
       <body>
         <div className="site-shell">
+          <a className="skip-link" href="#main-content">跳到主要内容</a>
           <SiteHeader />
-          <main className="site-main">{children}</main>
+          <main className="site-main" id="main-content">{children}</main>
           <SiteFooter />
         </div>
       </body>

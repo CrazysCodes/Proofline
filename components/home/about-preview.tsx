@@ -19,13 +19,13 @@ export function AboutPreview() {
         }}
       >
         <div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", marginBottom: 6 }}>About</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", marginBottom: 6 }}>关于我</div>
           <p style={{ fontSize: 13, lineHeight: 1.65, color: "var(--foreground-secondary)", margin: 0, maxWidth: 620 }}>
             {profile.bio}
           </p>
         </div>
         <Link href="/about" className="text-link" style={{ fontSize: 13 }}>
-          More →
+          了解更多 →
         </Link>
       </div>
     </section>

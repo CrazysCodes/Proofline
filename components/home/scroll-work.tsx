@@ -3,10 +3,24 @@
 import { useEffect, useRef, useState } from "react";
 import { TiltSurface } from "./tilt-surface";
 
-type Work = { name: string; type: string; description: string; image: string; contain?: boolean; width: number; height: number; href: string; action: string };
+type Work = { name: string; type: string; description: string; image: string; preview?: "nomi" | "cli"; contain?: boolean; width: number; height: number; href: string; action: string };
 
 function CliPreview() {
-  return <div className="cli-visual work-cli-preview"><span>$ opencli hltv --help</span><p>search · player · matches<br />maps · team · events</p><span className="cli-comment">结构化数据，可组合的工具。</span></div>;
+  return <div className="cli-visual work-cli-preview"><span>$ demo-tool --help</span><p>search · inspect · list<br />export · check · status</p><span className="cli-comment">结构化数据，可组合的工具。</span></div>;
+}
+
+function WorkPreview({ item }: { item: Work }) {
+  if (item.preview === "cli") return <CliPreview />;
+  if (item.preview === "nomi") return (
+    <div className="nomi-visual">
+      <div className="nomi-visual-heading"><span>AGENT</span><span>能力示意 · 非真实对话</span></div>
+      <p className="nomi-visual-title">一个入口，各自的上下文。</p>
+      <div className="nomi-visual-flow"><span>飞书私聊 / 群聊 @</span><span aria-hidden="true">↓</span><span>身份与权限边界</span></div>
+      <div className="nomi-visual-capabilities"><span>个人记忆</span><span>知识检索</span><span>受控工具</span></div>
+      <p className="nomi-visual-note">无需向量库 · 按需启用 · 操作可追溯</p>
+    </div>
+  );
+  return <div className="cli-visual work-cli-preview"><span>{item.name}</span><p>{item.type}</p><span className="cli-comment">查看项目介绍与实现边界。</span></div>;
 }
 
 export function ScrollWork({ items }: { items: Work[] }) {
@@ -62,7 +76,7 @@ export function ScrollWork({ items }: { items: Work[] }) {
             </div>
             <a className="work-mobile-image" href={item.href} target={item.href.startsWith("https:") ? "_blank" : undefined} rel={item.href.startsWith("https:") ? "noopener noreferrer" : undefined}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              {item.image ? <img className={item.contain ? "preview-contain" : undefined} src={`/images/articles/${item.image}`} alt={`${item.name} 产品首页截图`} width={item.width || undefined} height={item.height || undefined} loading="lazy" /> : <CliPreview />}
+              {item.image ? <img className={item.contain ? "preview-contain" : undefined} src={`/images/articles/${item.image}`} alt={`${item.name} 产品首页截图`} width={item.width || undefined} height={item.height || undefined} loading="lazy" /> : <WorkPreview item={item} />}
             </a>
           </article>
         ))}
@@ -78,7 +92,7 @@ export function ScrollWork({ items }: { items: Work[] }) {
             <a className="work-preview-screen" href={current.href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined} aria-label={`查看 ${current.name}`}>
               {items.map((item, index) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                item.image ? <img key={item.name} src={`/images/articles/${item.image}`} alt={active === index ? `${item.name} 产品首页截图` : ""} aria-hidden={active !== index} className={`${active === index ? "is-visible" : ""} ${item.contain ? "preview-contain" : ""}`} width={item.width || undefined} height={item.height || undefined} loading="lazy" /> : active === index ? <CliPreview key={item.name} /> : null
+                item.image ? <img key={item.name} src={`/images/articles/${item.image}`} alt={`${item.name} 产品首页截图`} aria-hidden={active !== index} className={`${active === index ? "is-visible" : ""} ${item.contain ? "preview-contain" : ""}`} width={item.width || undefined} height={item.height || undefined} loading="lazy" /> : active === index ? <WorkPreview key={item.name} item={item} /> : null
               ))}
             </a>
             <div className="work-preview-bottom"><span>{current.type}</span><span aria-hidden="true">↗</span></div>

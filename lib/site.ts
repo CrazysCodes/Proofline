@@ -37,8 +37,9 @@ function initials(name: string) {
 
 export const siteConfig = {
   url: trimTrailingSlash(env("SITE_URL", "http://localhost:3000")),
-  name: env("SITE_NAME", "Adong"),
-  description: env("SITE_DESCRIPTION", "个人主页、博客、作品集与研究入口"),
+  name: env("SITE_NAME", "Proofline"),
+  title: env("SITE_TITLE", "Proofline｜个人主页与技术笔记"),
+  description: env("SITE_DESCRIPTION", "一个基于 Markdown 的个人主页、技术博客与作品集模板。"),
   compliance: {
     icpRecord: env("ICP_RECORD"),
     icpRecordUrl: env("ICP_RECORD_URL", "https://beian.miit.gov.cn/"),
@@ -48,7 +49,7 @@ export const siteConfig = {
 };
 
 export function getProfile(): SiteProfile {
-  const name = env("AUTHOR_NAME", "Adong");
+  const name = env("AUTHOR_NAME", "Proofline");
   const email = env("AUTHOR_EMAIL");
 
   return {
@@ -68,7 +69,7 @@ export function getProfile(): SiteProfile {
     currentWork: env("AUTHOR_CURRENT_WORK", "AI 系统与开发者工具"),
     initials: initials(name) || "VP",
     links: {
-      github: env("GITHUB_URL", "https://github.com/CrazysCodes"),
+      github: env("GITHUB_URL", ""),
       email: email ? `mailto:${email}` : "",
       cv: env("CV_URL"),
       papers: env("PAPER_URL", "/research"),

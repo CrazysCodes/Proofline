@@ -11,11 +11,11 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const [posts, projects, papers] = await Promise.all([listPosts(), listProjects(), listPapers()]);
-  const hasPortfolio = posts.some((post) => post.slug === "portfolio-showcase-2026");
+  const hasPortfolio = posts.some((post) => post.slug === "portfolio-overview");
 
   return (
     <HomeEffects>
-      <Hero portfolioHref={hasPortfolio ? "/writing/portfolio-showcase-2026" : undefined} />
+      <Hero portfolioHref={hasPortfolio ? "/writing/portfolio-overview" : undefined} />
       <FeaturedProjects projects={projects} hasPortfolio={hasPortfolio} />
       <FeaturedWriting posts={posts} />
       <ResearchSection papers={papers} posts={posts} />

@@ -48,9 +48,9 @@ export function SiteHeaderClient({ name, githubUrl }: { name: string; githubUrl:
               </Link>
             );
           })}
-          <a href={githubUrl} target="_blank" rel="noopener noreferrer" className="nav-link" style={{ marginLeft: 8 }}>
+          {githubUrl ? <a href={githubUrl} target="_blank" rel="noopener noreferrer" className="nav-link" style={{ marginLeft: 8 }}>
             GitHub ↗
-          </a>
+          </a> : null}
         </div>
 
         <button

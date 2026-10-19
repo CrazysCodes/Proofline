@@ -19,10 +19,10 @@ UV 使用 `日期 + IP + User-Agent` 的 HMAC 结果估算。HMAC 密钥和数�
 | --- | --- |
 | 聚合脚本 | `/srv/services/apps/proofline-analytics/aggregate.py` |
 | 数据库 | `/srv/services/data/proofline-analytics/analytics.sqlite3` |
-| Basic Auth 报表 | `https://proofline.adong.org.cn/analytics/` |
+| Basic Auth 报表 | `https://analytics.example.com/analytics/` |
 | HTML 文件 | `/srv/services/data/proofline-analytics/report/index.html` |
 | JSON 数据 | `/srv/services/data/proofline-analytics/report/data.json` |
-| 公开浏览量 | `https://proofline.adong.org.cn/analytics/views.json` |
+| 公开浏览量 | `https://analytics.example.com/analytics/views.json` |
 | 原始日志 | `/var/log/nginx/proofline-analytics.log` |
 
 报表通过 Nginx 的精确 `/analytics/` 路径提供，并使用独立的 HTTP Basic Auth 密码文件保护。响应包含 `Cache-Control: no-store` 和 `X-Robots-Tag: noindex, nofollow, noarchive`。
@@ -31,7 +31,7 @@ UV 使用 `日期 + IP + User-Agent` 的 HMAC 结果估算。HMAC 密钥和数�
 
 浏览量每小时聚合一次；当前口径只计入 Nginx 返回的 HTML 页面请求，Next.js 站内客户端跳转不会被计入。
 
-`adong.org.cn` 也接入同一份公开浏览量数据：在该域名的 HTTPS server 中增加精确 `/analytics/views.json` 路由，并在日志配置的 `$proofline_analytics_enabled` map 中启用 `adong.org.cn`。两个域名按页面路径合并统计，不重复复制历史数据。认证报表仍保留在 `proofline.adong.org.cn/analytics/`，主域名不额外开放报表或完整数据。主域名接入前未写入独立统计日志的访问，不自动补算。
+`example.com` 也接入同一份公开浏览量数据：在该域名的 HTTPS server 中增加精确 `/analytics/views.json` 路由，并在日志配置的 `$proofline_analytics_enabled` map 中启用 `example.com`。两个域名按页面路径合并统计，不重复复制历史数据。认证报表仍保留在 `analytics.example.com/analytics/`，主域名不额外开放报表或完整数据。主域名接入前未写入独立统计日志的访问，不自动补算。
 
 ## 验证
 

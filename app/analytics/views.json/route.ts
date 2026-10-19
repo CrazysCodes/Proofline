@@ -11,7 +11,7 @@ export function GET() {
       "/": 1234,
       "/writing": 356,
       "/projects": 248,
-      "/writing/portfolio-showcase-2026": 89,
+      "/writing/portfolio-overview": 89,
     },
   });
 }

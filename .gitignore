@@ -16,6 +16,7 @@ tsconfig.tsbuildinfo
 *.htpasswd
 .DS_Store
 .deploy/
+public/BingSiteAuth.xml
 docs/release-*.md
 docs/analytics-domain-*.md
 docs/open-source-readiness-*.md

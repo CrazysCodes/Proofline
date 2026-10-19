@@ -13,7 +13,7 @@ export function LatestUpdates({ posts, projects }: { posts: PostEntry[]; project
       date: post.date,
       meta: post.category,
     })),
-    ...projects.slice(0, 2).map((project) => ({
+    ...[...projects].sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 2).map((project) => ({
       type: "项目",
       title: project.name,
       href: `/projects/${project.slug}`,
